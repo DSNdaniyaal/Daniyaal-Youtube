@@ -1,6 +1,8 @@
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 export function Signup() {
+  const navigate = useNavigate();
   async function signup() {
     await axios.post("http://localhost:8080/api/signup", {
             username: document.getElementById("username")!.value,
@@ -9,7 +11,7 @@ export function Signup() {
             gender: "Male"
         }).then(res => {
           localStorage.setItem("token", res.data.token)
-          window.location = "/signin"
+          navigate("/signin")
         })
 
   }

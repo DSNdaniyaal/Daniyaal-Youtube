@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 
 interface IVideoCard {
     imageURL: string;
@@ -8,7 +9,8 @@ interface IVideoCard {
 }
 
 export function VideoCard({imageURL, title, channelImage, channelName, href}: IVideoCard) {
-    return <div style = {{borderRadius: 30, margin: 20}} onClick={() => window.location = href}>
+    const navigate = useNavigate()
+    return <div style = {{borderRadius: 30, margin: 20}} onClick={() => navigate(href)}>
         <img src={imageURL} style = {{display:'block' ,width: '100%', borderRadius: 30}}></img>
         <div> {title} </div>
         <div>

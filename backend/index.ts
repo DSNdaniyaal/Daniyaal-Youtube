@@ -270,6 +270,38 @@ app.put("/api/channel", async (req, res) => {
   res.json(user);
 });
 
+app.get("/channel/:username", async (req, res)=> {
+  const username = req.params.username
+  const channelDetails = await prisma.user.findFirst({
+    where: {
+      username: username
+    },
+    select: {
+      username: true,
+      banner: true,
+      subscriberCount: true,
+      profilePicture: true,
+      id: true
+    }
+  })
+
+  if(!channelDetails) {return res.status(411).json({
+      error: "A channel with this name do not exist",
+    });
+    return ;
+  }
+
+  const uploads = await prisma.uploads.findMany({
+    where: {
+      userId: channelDetails.id
+    }
+  })
+
+  res.json({
+    uploads, channelDetails
+  })
+})
+
 app.listen(8080, () => {
     console.log("Server running on http://localhost:8080");
 })

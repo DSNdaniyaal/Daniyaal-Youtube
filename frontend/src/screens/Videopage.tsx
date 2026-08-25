@@ -25,17 +25,16 @@ export function Videopage() {
     });
   }, []);
 
-  return isLoading ? (
-    <div> Loading </div>
-  ) : (
+  return
     <div style={{ display: "flex", justifyContent: "space-between" }}>
-      <div>
+      {isLoading && <div> loading </div> }
+      {!isLoading && <div>
         <video src={videoDetails.videoUrl} />
         <br />
         <div>{videoDetails.title}</div>
         <div>{videoDetails.user.channelName}</div>
         <div>{videoDetails.user.profilePicture}</div>
-      </div>
+      </div>}
       <div>
         {recommendedVideos.map((video) => (
           <VideoCard
