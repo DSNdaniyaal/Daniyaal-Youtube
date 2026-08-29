@@ -302,6 +302,54 @@ app.get("/channel/:username", async (req, res)=> {
   })
 })
 
+app.post("/channel/:username/subscribe", async (req, res)=> {
+  const userId = getUserId(req)
+  const username = req.params.username
+
+  if (!userId) {
+    return res.status(401).json({
+      error: "Unauthorized",
+    });
+  }
+
+  const channelDetails = await prisma.user.findFirst({
+    where: {
+      username: username
+    },
+    select: {
+      username: true,
+      banner: true,
+      subscriberCount: true,
+      profilePicture: true,
+      id: true
+    }
+  })
+
+  if(!channelDetails) {return res.status(411).json({
+      error: "A channel with this name do not exist",
+    });
+    return ;
+  }
+
+  const newSubs = await prisma.user.update({
+    where: { id: userId },
+    data: {
+      subscriberCount: {
+        increment: 1
+      }
+    },
+    select: {
+      id: true,
+      subscriberCount: true
+    },
+  });
+
+  res.json({
+    newSubs,
+    channelDetails
+  })
+})
+
 app.listen(8080, () => {
     console.log("Server running on http://localhost:8080");
 })

@@ -25,6 +25,7 @@ model User {
   createdAt DateTime @default(now()) 
   updatedAt DateTime @updatedAt @default(now()) 
   uploads         Uploads[]
+  subscribers     Subscriber[]
 }
 
 model Uploads {
@@ -37,6 +38,15 @@ model Uploads {
   user            User          @relation(fields: [userId],references: [id])
   createdAt DateTime @default(now()) 
   updatedAt DateTime @updatedAt @default(now()) 
+}
+
+model Subscriber {
+   id              String        @id       @default(uuid()) 
+  // slug            String
+  userId          String
+  user            User          @relation(fields: [userId],references: [id])
+  channelName     String
+  channel            User          @relation(fields: [channelName],references: [channelName])
 }
 
 enum Gender {
