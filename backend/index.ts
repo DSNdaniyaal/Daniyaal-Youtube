@@ -344,6 +344,10 @@ app.post("/channel/:username/subscribe", async (req, res)=> {
     },
   });
 
+  await prisma.subscriber.create({
+    data: { userId, channelId: channelDetails.id},
+  })
+
   res.json({
     newSubs,
     channelDetails
