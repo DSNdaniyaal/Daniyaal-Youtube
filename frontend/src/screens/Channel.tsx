@@ -27,7 +27,7 @@ export function Channel() {
   }, [username]);
 
   function subscribe(){
-    axios.get("http://localhost:8080/channel/" + username).then((response) => {
+    axios.get("http://localhost:8080/channel/" + username + "/subscribe").then((response) => {
       const { uploads, channelDetails } = response.data;
       setUploads(uploads);
       setChannelDetails(channelDetails);
