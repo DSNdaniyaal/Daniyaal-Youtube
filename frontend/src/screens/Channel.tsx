@@ -26,9 +26,21 @@ export function Channel() {
     });
   }, [username]);
 
+  function subscribe(){
+    axios.get("http://localhost:8080/channel/" + username).then((response) => {
+      const { uploads, channelDetails } = response.data;
+      setUploads(uploads);
+      setChannelDetails(channelDetails);
+      setIsLoading(false);
+    });
+  }
+
   return isLoading ? (
     <h1>Loading</h1>
   ) : (
+    <div> 
+      <button onClick={subscribe}> Subscribe </button>
+    </div>
     <div>
         <img src={channelDetails.banner} />
       {uploads.map((video) => (
